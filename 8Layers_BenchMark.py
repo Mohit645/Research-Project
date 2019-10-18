@@ -28,7 +28,8 @@ from matplotlib import pyplot as plt
 
 #Copying files to new location and making new repository
 
-path ="C:\\Users\\Mohit\\OneDrive\\Documents\\Sem3\\NewSegmentation\\"
+path ="C:\\Users\\Mohit\\OneDrive\\Documents\\Sem3\\NewSegmentation1\\"
+#os.mkdir(path)
 os.chdir(path)
 newClasses = ['HE\\', 'Background\\']
 
@@ -104,15 +105,14 @@ for i in newClasses:
     
     for k in test:
         src_dir=path+i+k
-        shutil.copy(src_dir,dst_dir)
-    del(images)
-    
+        shutil.copy(src_dir,dst_dir)    
 
-    
+    dst_dir = path+"Train\\"+i
+    os.mkdir(dst_dir)    
     for j in train:
         src_dir=path+i+j
         shutil.copy(src_dir,dst_dir)
-    
+    del(images)
 
 
 
@@ -210,19 +210,20 @@ from keras.callbacks import ReduceLROnPlateau
 annealer  = ReduceLROnPlateau(monitor='val_acc')
 
 import os
-path ="C:\\Users\\Mohit\\OneDrive\\Documents\\Sem3\\NewSegmentation\\"
+path ="C:\\Users\\Mohit\\OneDrive\\Documents\\Sem3\\NewSegmentation1\\"
 os.chdir(path)
 
 
 training_set = train_datagen.flow_from_directory('Train', target_size=(32,32), batch_size=batch_size, class_mode='categorical')
+#training_set = ('Train', target_size=(32,32), batch_size=batch_size, class_mode='categorical')
 
 test_set = test_datagen.flow_from_directory('Test', target_size=(32,32), batch_size=batch_size, class_mode='categorical')
 #We added the loss function for the model. Since we have multiple classes so we used categorical crossentropy function.
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 model.fit_generator(training_set,
-                       steps_per_epoch=144659,
+                       steps_per_epoch=271,
                        epochs=epochs,
                        validation_data=test_set,
-                       validation_steps=48221,
+                       validation_steps=92,
                        callbacks=[annealer])
