@@ -192,7 +192,7 @@ model.add(Dense(100, activation="relu"))
 model.add(Dense(num_classes, activation = "sigmoid"))
 #model.add(Dense(num_classes, activation = "softmax"))
 # Compile the model with loss and metrics
-model.compile(optimizer =  Adam() , loss = "categorical_crossentropy", metrics=["accuracy"])
+model.compile(optimizer =  Adam() , loss = "binary_crossentropy", metrics=["accuracy"])
 
 
 
