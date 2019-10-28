@@ -115,6 +115,7 @@ for i in newClasses:
     del(images)
 
 os.rmdir(path+'Test\\')
+
 os.rename(path+'Test1', path+'Test')
 
 
@@ -122,29 +123,59 @@ os.rename(path+'Test1', path+'Test')
 
 
 #DataAugmentation
-images = [f for f in os.listdir(path+newClasses[0]) if os.path.splitext(f)[-1] == '.tif']          
-itr = round(100000/len(images))
+newPath=path+'Train\\'
+images = [f for f in os.listdir(newPath+newClasses[0]) if os.path.splitext(f)[-1] == '.tif']          
+itr = round(10000/len(images))
 
 for image in images:
-        img = load_img(path+'HE\\'+image) 
+        img = load_img(newPath+'HE\\'+image) 
         data = img_to_array(img)
         samples = expand_dims(data, 0)
         datagen = ImageDataGenerator(rotation_range=90)
-        it = datagen.flow(samples, batch_size=32, save_to_dir=path+'HE\\' ,save_prefix='AUG_ISIC_GEN_'+image, save_format='jpg')
+        it = datagen.flow(samples, batch_size=32, save_to_dir=newPath+'HE\\' ,save_prefix='AUG_ISIC_GEN_'+image, save_format='jpg')
         for j in range(itr):
             batch = it.next()
             
             
 
-images = [f for f in os.listdir(path+newClasses[1]) if os.path.splitext(f)[-1] == '.tif']  
-itr =  round(100000/len(images)) 
+images = [f for f in os.listdir(newPath+newClasses[1]) if os.path.splitext(f)[-1] == '.tif']  
+itr =  round(10000/len(images)) 
 
 for image in images:
-        img = load_img(path+'Background\\'+image) 
+        img = load_img(newPath+'Background\\'+image) 
         data = img_to_array(img)
         samples = expand_dims(data, 0)
         datagen = ImageDataGenerator(rotation_range=90)
-        it = datagen.flow(samples, batch_size=32, save_to_dir=path+'Background\\' ,save_prefix='AUG_ISIC_GEN_'+image, save_format='jpg')
+        it = datagen.flow(samples, batch_size=32, save_to_dir=newPath+'Background\\' ,save_prefix='AUG_ISIC_GEN_'+image, save_format='jpg')
+        for j in range(itr):
+            batch = it.next()
+            
+#Augmenting the validation set
+
+newPath=path+'Train\\'
+images = [f for f in os.listdir(newPath+newClasses[0]) if os.path.splitext(f)[-1] == '.tif']          
+itr = round(10000/len(images))
+
+for image in images:
+        img = load_img(newPath+'HE\\'+image) 
+        data = img_to_array(img)
+        samples = expand_dims(data, 0)
+        datagen = ImageDataGenerator(rotation_range=90)
+        it = datagen.flow(samples, batch_size=32, save_to_dir=newPath+'HE\\' ,save_prefix='AUG_ISIC_GEN_'+image, save_format='jpg')
+        for j in range(itr):
+            batch = it.next()
+            
+            
+
+images = [f for f in os.listdir(newPath+newClasses[1]) if os.path.splitext(f)[-1] == '.tif']  
+itr =  round(10000/len(images)) 
+
+for image in images:
+        img = load_img(newPath+'Background\\'+image) 
+        data = img_to_array(img)
+        samples = expand_dims(data, 0)
+        datagen = ImageDataGenerator(rotation_range=90)
+        it = datagen.flow(samples, batch_size=32, save_to_dir=newPath+'Background\\' ,save_prefix='AUG_ISIC_GEN_'+image, save_format='jpg')
         for j in range(itr):
             batch = it.next()
      
