@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Oct  9 01:39:28 2019
+Created on Sun Oct 27 23:45:35 2019
 
 @author: Mohit
 """
+
 import os
 import shutil
 import cv2
@@ -62,6 +63,63 @@ for j in newClasses:
         img = img.resize((256,256), Image.ANTIALIAS)
         img.save(path+j+i)
 
+#Splitting the dataset
+#Creating test and training sets
+os.mkdir(path+'Train\\')
+os.mkdir(path+'Test\\')
+os.mkdir(path+'Validation\\')
+
+#Creating test and training sets
+os.mkdir(path+'Train\\')
+os.mkdir(path+'Test\\')
+
+from sklearn.model_selection import train_test_split
+for i in newClasses:
+    newPath =path+i
+    images = [f for f in os.listdir(newPath) if os.path.splitext(f)[-1] == '.jpg' or os.path.splitext(f)[-1] == '.tif']
+    train,test = train_test_split(images, test_size = 1/4, random_state = 0)
+    
+    dst_dir = path+"Test\\"+i
+    os.mkdir(dst_dir)
+    
+    for k in test:
+        src_dir=path+i+k
+        shutil.copy(src_dir,dst_dir)    
+
+    dst_dir = path+"Train\\"+i
+    os.mkdir(dst_dir)    
+    for j in train:
+        src_dir=path+i+j
+        shutil.copy(src_dir,dst_dir)
+    del(images)
+    
+#Splitting Test into Test and Validation
+from sklearn.model_selection import train_test_split
+for i in newClasses:
+    newPath =path+'Test\\'+i
+    images = [f for f in os.listdir(newPath) if os.path.splitext(f)[-1] == '.jpg' or os.path.splitext(f)[-1] == '.tif']
+    validation,test = train_test_split(images, test_size = 1/2, random_state = 0)
+    
+    dst_dir = path+"Test1\\"+i
+    os.mkdir(dst_dir)
+    
+    for k in test:
+        src_dir=path+i+k
+        shutil.copy(src_dir,dst_dir)    
+
+    dst_dir = path+"Validation\\"+i
+    os.mkdir(dst_dir)    
+    for j in validation:
+        src_dir=path+i+j
+        shutil.copy(src_dir,dst_dir)
+    del(images)
+
+os.rmdir(path+'Test\\')
+os.rename(path+'Test1', path+'Test')
+
+
+
+
 
 #DataAugmentation
 images = [f for f in os.listdir(path+newClasses[0]) if os.path.splitext(f)[-1] == '.tif']          
@@ -90,29 +148,6 @@ for image in images:
         for j in range(itr):
             batch = it.next()
      
-#Creating test and training sets
-os.mkdir(path+'Train\\')
-os.mkdir(path+'Test\\')
-
-from sklearn.model_selection import train_test_split
-for i in newClasses:
-    newPath =path+i
-    images = [f for f in os.listdir(newPath) if os.path.splitext(f)[-1] == '.jpg' or os.path.splitext(f)[-1] == '.tif']
-    train,test = train_test_split(images, test_size = 1/4, random_state = 0)
-    
-    dst_dir = path+"Test\\"+i
-    os.mkdir(dst_dir)
-    
-    for k in test:
-        src_dir=path+i+k
-        shutil.copy(src_dir,dst_dir)    
-
-    dst_dir = path+"Train\\"+i
-    os.mkdir(dst_dir)    
-    for j in train:
-        src_dir=path+i+j
-        shutil.copy(src_dir,dst_dir)
-    del(images)
 
 
 
