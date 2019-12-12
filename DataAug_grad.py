@@ -139,6 +139,9 @@ for index, row in grad.iterrows():
         dst_dir = file_repository+'4'
         shutil.copy(src_dir,dst_dir)  
 
+        
+#url = https://www.geeksforgeeks.org/python-data-augmentation/ for reference
+
 itr=0
 Grad_aug = Grad
 for i in Grad_aug:
