@@ -56,7 +56,7 @@ for j in set1:
         
 
 #Trimming the black border
-        
+#url = https://www.geeksforgeeks.org/python-pil-image-crop-method/        
 for j in set1:
     
     images = [f for f in os.listdir(path_OI+j) if os.path.splitext(f)[-1] == '.jpg']
