@@ -25,6 +25,8 @@ os.chdir(path)
 path_OI =path+"1. Original Images/"
 path_gt=path+"2. Groundtruths/"
 
+
+#url = https://www.programcreek.com/python/example/570/Image.ANTIALIAS
 set1=['a. Training Set/', 'b. Testing Set/']
 for j in set1:
     print("Resizing "+ j)   
